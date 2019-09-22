@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<!--<f:view>-->
+    <h:head>
+        <title>Students</title>
+        <h:outputStylesheet>
+            th, td {
+                text-align: center;
+            }
+
+            h3 {
+                margin-top: 0;
+                text-align: center;
+                background-color: bisque;
+            }
+
+            input[type="text"] {
+                width: 100%;
+                box-sizing: border-box;
+                -webkit-box-sizing:border-box;
+                -moz-box-sizing: border-box;
+            }
+
+            body {
+                background-color: azure;
+            }
+
+        </h:outputStylesheet>
+    </h:head>
+    <h:body>
+        <p:outputPanel>
+            <h3>STUDENTS</h3>
+            <div class="ui-g">
+                <div class="ui-g-2"></div>
+                <div class="ui-g-8">
+                    <h:form id="students">
+                        <p:growl id="growl" sticky="true"/>
+                        <p:dataTable id="studentsList" var="student" value="#{studentsServiceImpl.studentsList}">
+                            <p:column headerText="Id">
+                                <h:outputText value="#{student.idstudents}"/>
+                            </p:column>
+                            <p:column headerText="First name">
+                                <p:inputText id="firstNameInput" value="#{student.name}"/>
+                            </p:column>
+                            <p:column headerText="Last name">
+                                <p:inputText id="lastNameInput" value="#{student.surname}"/>
+                            </p:column>
+                            <p:column headerText="Facultet">
+                                <p:inputText id="facultetInput" value="#{student.facultet}"/>
+                            </p:column>
+                            <p:column headerText="Day of birth">
+                                <h:outputText value="#{student.dayOfBirth}">
+                                    <f:convertDateTime type="date" pattern="dd.MM.yyyy"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column>
+                                <p:commandButton update="studentsList" value="Delete" icon="ui-icon-closethick"
+                                                 action="#{studentsServiceImpl.delete(student)}"
+                                                 styleClass="ui-priority-primary">
+                                </p:commandButton>
+                            </p:column>
+                            <p:column>
+                                <p:commandButton value="Save" styleClass="ui-priority-primary" update="studentsList"
+                                                 action="#{studentsServiceImpl.editStudent(student)}" icon="ui-icon-disk" >
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                        <br/>
+                    </h:form>
+                </div>
+                <div class="ui-g-2">
+                </div>
+            </div>
+            <h3>Create a new students</h3>
+            <div class="ui-g">
+                <div class="ui-g-2">
+                </div>
+                <div class="ui-g-8">
+                    <h:form id="add">
+                        <h:panelGrid columns="3" cellpadding="5" style="margin: 0 auto;">
+                            <p:outputLabel for="firstName" value="First name"/>
+                            <p:inputText id="firstName" value="#{studentsServiceImpl.students.name}"/>
+                            <p:message for="firstName"/>
+                            <p:outputLabel for="lastName" value="Last name"/>
+                            <p:inputText id="lastName" value="#{studentsServiceImpl.students.surname}">
+                            </p:inputText>
+                            <p:message for="lastName"/>
+                            <p:outputLabel for="facultet" value="Facultet"/>
+                            <p:inputText id="facultet" value="#{studentsServiceImpl.students.facultet}">
+                            </p:inputText>
+                            <p:message for="facultet"/>
+                            <p:outputLabel for="dayOfBirth" value="Day of birth"/>
+                            <p:calendar id="dayOfBirth" value="#{studentsServiceImpl.students.dayOfBirth}" pattern="dd.MM.yyyy" mask="true">
+                                <f:convertDateTime type="date" pattern="dd.MM.yyyy"/>
+                            </p:calendar>
+                            <p:message for="dayOfBirth"/>
+                            <p:commandButton update="@form :students:studentsList" value="Add" action="#{studentsServiceImpl.addStudent(studentsServiceImpl.students)}">
+                            </p:commandButton>
+                        </h:panelGrid>
+                    </h:form>
+                </div>
+                <div class="ui-g-2">
+                </div>
+            </div>
+        </p:outputPanel>
+    </h:body>
+<!--</f:view>-->
+</html>
